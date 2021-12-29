@@ -16,17 +16,17 @@
     <div class="container">
         <div class="row mt-3">
             <div class="col-md-12">
-                <a href="createreviews.php" class="btn btn-success text-white">Create review</a>
+                <a href="createhardwarerequirements.php" class="btn btn-success text-white">Create hardware requirement</a>
                 <a href="index.php" class="btn btn-primary text-white">Back to main page</a>
             </div>
 
             <div class="col-md-12 mt-2">
-              <form action= 'searchreview.php' method = "post" >
+              <form action= "hrdwsearch.php" method= "post">
                 <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="">Search as name:</span>
                     </div>
-                    <input name = "searchreview" type="text" class="form-control">
+                    <input type="text" class="form-control">
                     <button type="submit" class="btn btn-primary text-white">Search</button>
                   </div>
                   </form>
@@ -34,32 +34,48 @@
             <table class="table table-hover mt-3">
                 <thead>
                   <tr>
-                    <th scope="col">Game</th>
-                    <th scope="col">User</th>
-                    
-                    <th scope="col">Review comment</th>
-                    <th scope="col">Review point</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Cpu model</th>
+                    <th scope="col">Gpu model</th>
+                    <th scope="col">RAM</th>
+                    <th scope="col">Disk Space</th>
+                    <th scope="col"></th>
+
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                <?php
-                  include "config.php";
 
-                    $sql_command = "SELECT player.name as 'name1', game.name as 'name', reviews.review_comment, reviews.review_point, reviews.review_id FROM reviews, player, game WHERE reviews.game_id = game.game_id and reviews.player_id = player.player_id";
-                    $result =  mysqli_query($db, $sql_command);
-
-                    while ($rows = mysqli_fetch_assoc($result))
-                    {
-                        $game_id = $rows['name'];
-                        $review_id= $rows['review_id'];
-                        $user_id = $rows['name1'];
-                        $review_comment = $rows['review_comment'];
-                        $review_point = $rows['review_point'];
-                        echo "<tr>" . "<th scope='row'>" . $game_id . "</th>" . "<th>" . $user_id . "</th>" . "<th>" . $review_comment . "</th>".  "<th>" . $review_point . "<th><form method=post action=deletereviewpost.php><button name=review value=$review_id type='submit' class='btn btn-danger'> X </button></form></th>". "</tr>";
-                    }
+                    <?php
                     
-                    ?>
+                        include "config.php";
+
+
+                        if (isset($_POST['hrdwsearch']))
+                        {
+                            $game = $_POST['hrdwsearch'];
+
+                            $sql_statement = "SELECT  * FROM hardware_requirement WHERE gpu_model LIKE '$game%' OR cpu_model LIKE '$game%' OR ram LIKE '$game%' OR disk_space LIKE '$game%';";
+
+                            $result = mysqli_query($db, $sql_statement);
+                            while ($rows = mysqli_fetch_assoc($result))
+                            {
+                                $requirement_id = $rows['requirement_id'];
+                                $cpu_model = $rows['cpu_model'];
+                                $gpu_model = $rows['gpu_model'];
+                                $ram = $rows['ram'];
+                                $disk_space = $rows['disk_space'];
+                                echo "<tr>" . "<th scope='row'>" . $requirement_id . "</th>" . "<th>" . $cpu_model. "</th>". "<th>" . $gpu_model. "</th>". "<th>" . $ram. "</th>". "<th>" . $disk_space. "<th><form method=post action=deletehardwarerequirementspost.php><button name=hardware_requirement value=$requirement_id type='submit' class='btn btn-danger'> X </button></form></th>". "</tr>";
+                            }
+                        }
+
+                        else
+                        {
+                            echo "The form is not set.";
+                        }
+
+                      ?>
+                  
                 </tbody>
               </table>
         </div>

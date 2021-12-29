@@ -16,17 +16,17 @@
     <div class="container">
         <div class="row mt-3">
             <div class="col-md-12">
-                <a href="createreviews.php" class="btn btn-success text-white">Create review</a>
+                <a href="createuser.php" class="btn btn-success text-white">Create user</a>
                 <a href="index.php" class="btn btn-primary text-white">Back to main page</a>
             </div>
 
             <div class="col-md-12 mt-2">
-              <form action= 'searchreview.php' method = "post" >
+              <form action = "searchuser.php" method = "post" >
                 <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="">Search as name:</span>
                     </div>
-                    <input name = "searchreview" type="text" class="form-control">
+                    <input name = "usersearch" type="text" class="form-control">
                     <button type="submit" class="btn btn-primary text-white">Search</button>
                   </div>
                   </form>
@@ -34,32 +34,51 @@
             <table class="table table-hover mt-3">
                 <thead>
                   <tr>
-                    <th scope="col">Game</th>
-                    <th scope="col">User</th>
-                    
-                    <th scope="col">Review comment</th>
-                    <th scope="col">Review point</th>
-                    <th></th>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Coin</th>
+                    <th scope="col">Birth date</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone number</th>
+                    <th scope="col">Region</th>
                   </tr>
                 </thead>
                 <tbody>
                 <?php
-                  include "config.php";
 
-                    $sql_command = "SELECT player.name as 'name1', game.name as 'name', reviews.review_comment, reviews.review_point, reviews.review_id FROM reviews, player, game WHERE reviews.game_id = game.game_id and reviews.player_id = player.player_id";
-                    $result =  mysqli_query($db, $sql_command);
+                    include "config.php";
 
-                    while ($rows = mysqli_fetch_assoc($result))
+
+                    if (isset($_POST['usersearch']))
                     {
-                        $game_id = $rows['name'];
-                        $review_id= $rows['review_id'];
-                        $user_id = $rows['name1'];
-                        $review_comment = $rows['review_comment'];
-                        $review_point = $rows['review_point'];
-                        echo "<tr>" . "<th scope='row'>" . $game_id . "</th>" . "<th>" . $user_id . "</th>" . "<th>" . $review_comment . "</th>".  "<th>" . $review_point . "<th><form method=post action=deletereviewpost.php><button name=review value=$review_id type='submit' class='btn btn-danger'> X </button></form></th>". "</tr>";
-                    }
+                        $game = $_POST['usersearch'];
+
+                        $sql_statement = "SELECT  * FROM player WHERE name LIKE '$game%' OR surname LIKE '$game%';";
+
+                        $result = mysqli_query($db, $sql_statement);
                     
+                        while ($rows = mysqli_fetch_assoc($result))
+                        {
+                            $player_id = $rows['player_id'];
+                            $name = $rows['name'];
+                            $surname = $rows['surname'];
+                            $suplay_coin = $rows['suplay_coin'];
+                            $birth_date = $rows['birth_date'];
+                            $email = $rows['email'];
+                            $phone_number = $rows['phone_number'];
+                            $region = $rows['region'];
+                            echo "<tr>" . "<th scope='row'>" . $player_id . "</th>" . "<th>" . $name . "</th>" . "<th>" . $surname . "</th>".  "<th>" . $suplay_coin . "</th>". "<th>" . $birth_date . "</th>" . "<th>". $email . "</th>" . "<th>". $phone_number . "</th>". "<th>" . $region . "<th><form method=post action=deleteuserpost.php><button name=player_id value=$player_id type='submit' class='btn btn-danger'> X </button></form></th>". "</tr>";
+                        }
+                    }
+
+                    else
+                    {
+                        echo "The form is not set.";
+                    }
+
                     ?>
+                  
                 </tbody>
               </table>
         </div>

@@ -44,21 +44,32 @@
                 </thead>
                 <tbody>
                 <?php
-                  include "config.php";
+                    include "config.php";
 
-                    $sql_command = "SELECT player.name as 'name1', game.name as 'name', reviews.review_comment, reviews.review_point, reviews.review_id FROM reviews, player, game WHERE reviews.game_id = game.game_id and reviews.player_id = player.player_id";
-                    $result =  mysqli_query($db, $sql_command);
 
-                    while ($rows = mysqli_fetch_assoc($result))
+                    if (isset($_POST['searchreview']))
                     {
-                        $game_id = $rows['name'];
-                        $review_id= $rows['review_id'];
-                        $user_id = $rows['name1'];
-                        $review_comment = $rows['review_comment'];
-                        $review_point = $rows['review_point'];
-                        echo "<tr>" . "<th scope='row'>" . $game_id . "</th>" . "<th>" . $user_id . "</th>" . "<th>" . $review_comment . "</th>".  "<th>" . $review_point . "<th><form method=post action=deletereviewpost.php><button name=review value=$review_id type='submit' class='btn btn-danger'> X </button></form></th>". "</tr>";
+                        $comment = $_POST['searchreview'];
+
+                        $sql_command = "SELECT player.name as 'name1', game.name as 'name', reviews.review_comment, reviews.review_point, reviews.review_id FROM reviews, player, game WHERE reviews.game_id = game.game_id AND reviews.player_id = player.player_id AND (reviews.review_comment LIKE '$comment%')";
+
+                        $result = mysqli_query($db, $sql_command);
+                        
+                        while ($rows = mysqli_fetch_assoc($result))
+                        {
+                            $game_id = $rows['name'];
+                            $review_id= $rows['review_id'];
+                            $user_id = $rows['name1'];
+                            $review_comment = $rows['review_comment'];
+                            $review_point = $rows['review_point'];
+                            echo "<tr>" . "<th scope='row'>" . $game_id . "</th>" . "<th>" . $user_id . "</th>" . "<th>" . $review_comment . "</th>".  "<th>" . $review_point . "<th><form method=post action=deletereviewpost.php><button name=review value=$review_id type='submit' class='btn btn-danger'> X </button></form></th>". "</tr>";
+                        }
                     }
-                    
+
+                    else
+                    {
+                        echo "The form is not set.";
+                    }
                     ?>
                 </tbody>
               </table>
