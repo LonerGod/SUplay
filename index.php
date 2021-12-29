@@ -17,6 +17,7 @@
         <div class="row mt-3">
             <div class="col-md-12">
                 <h2 class="text-center">Welcome to SUPLAY!</h2>
+                <h5 class="text-center">Admin side</h2>
             </div>
             <div class="col-md-6">
                 <a href="games.php" style="padding:30px;width:100%" class="btn mb-5 bg-danger btn-lg text-white">Games</a>
@@ -38,6 +39,15 @@
             </div>
             <div class="col-md-6">
                 <a href="hardwarerequirements.php" style="padding:30px;width:100%" class="btn mb-5 bg-danger btn-lg text-white">Hardware requirements</a>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <h3 class="text-center">User side</h2>
+            </div>
+            <div class="col-md-6">
+                <a href="usergamelist.php" style="padding:30px;width:100%" class="btn mb-5 bg-success btn-lg text-white">Games list</a>
             </div>
         </div>
     

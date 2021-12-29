@@ -20,7 +20,7 @@
                 <a href="index.php" class="btn btn-primary text-white">Back to main page</a>
             </div>
             <div class="col-md-12 mt-2">
-                <form action="addgenrepost.php" method="post">
+                <form action="addhardwarerequirementpost.php" method="post">
                     <div class="form-group">
                         <label for="inputGame">Game</label>
                         <select class="custom-select" name="game" id="inputGame">
