@@ -16,17 +16,17 @@
     <div class="container">
         <div class="row mt-3">
             <div class="col-md-12">
-                <a href="createreviews.php" class="btn btn-success text-white">Create review</a>
+                <a href="createdevelopmentcompany.php" class="btn btn-success text-white">Create development company</a>
                 <a href="index.php" class="btn btn-primary text-white">Back to main page</a>
             </div>
 
             <div class="col-md-12 mt-2">
-              <form action= 'searchreview.php' method = "post" >
+              <form action= 'searchdevcomp.php' method= "post">
                 <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="">Search as name:</span>
                     </div>
-                    <input name = "searchreview" type="text" class="form-control">
+                    <input name = "searchdevcomp" type="text" class="form-control">
                     <button type="submit" class="btn btn-primary text-white">Search</button>
                   </div>
                   </form>
@@ -34,31 +34,36 @@
             <table class="table table-hover mt-3">
                 <thead>
                   <tr>
-                    <th scope="col">Game</th>
-                    <th scope="col">User</th>
-                    
-                    <th scope="col">Review comment</th>
-                    <th scope="col">Review point</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
                 <?php
-                  include "config.php";
+                    include "config.php";
 
-                    $sql_command = "SELECT player.name as 'name1', game.name as 'name', reviews.review_comment, reviews.review_point, reviews.review_id FROM reviews, player, game WHERE reviews.game_id = game.game_id and reviews.player_id = player.player_id";
-                    $result =  mysqli_query($db, $sql_command);
-
-                    while ($rows = mysqli_fetch_assoc($result))
+                    if (isset($_POST['searchdevcomp']))
                     {
-                        $game_id = $rows['name'];
-                        $review_id= $rows['review_id'];
-                        $user_id = $rows['name1'];
-                        $review_comment = $rows['review_comment'];
-                        $review_point = $rows['review_point'];
-                        echo "<tr>" . "<th scope='row'>" . $game_id . "</th>" . "<th>" . $user_id . "</th>" . "<th>" . $review_comment . "</th>".  "<th>" . $review_point . "<th><form method=post action=deletereviewpost.php><button name=review value=$review_id type='submit' class='btn btn-danger'> X </button></form></th>". "</tr>";
-                    }
+                        $cmp = $_POST['searchdevcomp'];
+
+                        $sql_statement = "SELECT  * FROM development_company WHERE company_name LIKE '$cmp%';";
+
+                        $result = mysqli_query($db, $sql_statement);
                     
+                        while ($rows = mysqli_fetch_assoc($result))
+                        {
+                            $company_id = $rows['company_id'];
+                            $company_name = $rows['company_name'];
+                            echo "<tr>" . "<th scope='row'>" . $company_id . "</th>" . "<th>" . $company_name. "<th><form method=post action=deletedevelopmentcompanypost.php><button name=development_company value=$company_id type='submit' class='btn btn-danger'> X </button></form></th>". "</tr>";
+                        }
+                    }
+
+                    else
+                    {
+                        echo "The form is not set.";
+                    }
+
                     ?>
                 </tbody>
               </table>

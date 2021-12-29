@@ -25,8 +25,7 @@
 
             <div class="col-md-12 mt-2">,
               <form action='searchgame.php' method="post">
-
-              
+                
                 <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="">Search as name:</span>

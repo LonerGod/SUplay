@@ -21,13 +21,15 @@
             </div>
 
             <div class="col-md-12 mt-2">
+              <form action = "searchuser.php" method = "post" >
                 <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="">Search as name:</span>
                     </div>
-                    <input type="text" class="form-control">
-                    <a href="index.html" class="btn btn-primary text-white">Search</a>
+                    <input name = "usersearch" type="text" class="form-control">
+                    <button type="submit" class="btn btn-primary text-white">Search</button>
                   </div>
+                  </form>
             </div>
             <table class="table table-hover mt-3">
                 <thead>
